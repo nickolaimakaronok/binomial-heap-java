@@ -11,16 +11,16 @@ public class MegaHeapTest {
     // ====== Настройки ======
     private static final long SEED = 123456789L;
 
-    // Сколько рандомных сценариев на режим
+    // Number of random scenarios per mode
     private static final int RANDOM_TRIALS_PER_MODE = 8;
 
-    // Сколько операций в одном рандомном сценарии
+    // Number of operations per random scenario
     private static final int OPS_PER_TRIAL = 350;
 
     // Насколько часто делать полную структурную валидацию (1 = после каждой операции)
     private static final int VALIDATE_EVERY = 1;
 
-    // Вероятности операций в рандомном тесте
+    // Operation probabilities in random tests
     private static final int P_INSERT = 35;
     private static final int P_DELETE_MIN = 15;
     private static final int P_DECREASE_KEY = 25;
@@ -133,7 +133,7 @@ public class MegaHeapTest {
             other.counts.clear();
         }
 
-        // Список всех живых item (для рандома)
+        // List of all live items (for random operations)
         ArrayList<Heap.HeapItem> liveItems() {
             return new ArrayList<>(itemKey.keySet());
         }
@@ -277,9 +277,9 @@ public class MegaHeapTest {
         }
     }
 
-    // ====== Детерминированные тесты ======
+    // ====== Deterministic Tests ======
     private static void deterministicTests(boolean lazyMelds, boolean lazyDecreaseKeys) {
-        info("\n=== Детерминированные тесты | lazyMelds=" + lazyMelds + ", lazyDecreaseKeys=" + lazyDecreaseKeys + " ===");
+        info("\n=== Deterministic Tests | lazyMelds=" + lazyMelds + ", lazyDecreaseKeys=" + lazyDecreaseKeys + " ===");
         Heap h = new Heap(lazyMelds, lazyDecreaseKeys);
         RefModel m = new RefModel();
 
@@ -386,9 +386,9 @@ public class MegaHeapTest {
         }
     }
 
-    // ====== Рандомные тесты ======
+    // ====== Random Tests ======
     private static void randomTests(boolean lazyMelds, boolean lazyDecreaseKeys, Random rnd) {
-        info("\n=== Рандомные тесты | lazyMelds=" + lazyMelds + ", lazyDecreaseKeys=" + lazyDecreaseKeys + " ===");
+        info("\n=== Random Tests | lazyMelds=" + lazyMelds + ", lazyDecreaseKeys=" + lazyDecreaseKeys + " ===");
 
         for (int t = 1; t <= RANDOM_TRIALS_PER_MODE; t++) {
             Heap h = new Heap(lazyMelds, lazyDecreaseKeys);
@@ -403,7 +403,7 @@ public class MegaHeapTest {
             for (int op = 1; op <= OPS_PER_TRIAL; op++) {
                 int roll = rnd.nextInt(100);
 
-                // Обновляем списки живых items
+                // Update the list of live items
                 ArrayList<Heap.HeapItem> live = m.liveItems();
                 ArrayList<Heap.HeapItem> live2 = m2.liveItems();
 
@@ -506,7 +506,7 @@ public class MegaHeapTest {
         }
 
         long ms = System.currentTimeMillis() - start;
-        info("\nВСЁ ОК. Проверок выполнено: " + CHECKS + " | время: " + ms + " ms");
-        info("Seed=" + SEED + " (можешь менять для других рандом-сценариев)");
+        info("\nALL OK. Checks performed: " + CHECKS + " | time: " + ms + " ms");
+        info("Seed=" + SEED + " (change to test different random scenarios)");
     }
 }
